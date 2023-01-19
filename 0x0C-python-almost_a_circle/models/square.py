@@ -1,53 +1,86 @@
 #!/usr/bin/python3
-"""square
+
 """
-from models.rectangle import Rectangle
+File: square.py
+Desc: This modlue contains a class called Square that
+      inherits from the Recatangle class in the rectangle
+      module.
+Author: Gizachew Bayness (Elec Crazy)
+Date Created: Aug 7 2022
+"""
+from models.rectangle import Rectangle as R
 
 
-class Square(Rectangle):
-    """Inherits from Rectangle
+class Square(R):
     """
-
+    This square class represents a square model, and inherits
+    from the Rectangle class model in the models package.
+    """
     def __init__(self, size, x=0, y=0, id=None):
-        super().__init__(width=size, height=size, x=x, y=y, id=id)
+        """
+        This method instantantiates instance attributes of
+        the square.
+        """
+        super().__init__(size, size, x, y, id)
 
     @property
     def size(self):
+        """ Getter method for size attribute """
         return self.width
 
     @size.setter
     def size(self, value):
-        """size needs to be an int
-        """
-
+        """ Setter method for size attribute """
         self.width = value
         self.height = value
 
     def __str__(self):
-        """Returns formatted information display
         """
-
-        return "[{}] ({}) {}/{} - {}".format(self.__class__.__name__,
-                                             self.id, self.x, self.y,
-                                             self.width)
+        Returns the string representation of a Square object.
+        """
+        string = "[Square] ({}) {}/{} - {}".format(
+                self.id, self.x, self.y, self.size)
+        return string
 
     def update(self, *args, **kwargs):
-        if len(kwargs) != 0:
-            for k, v in kwargs.items():
-                setattr(self, k, v)
-        elif len(args) != 0:
-            try:
-                self.id = args[0]
-                self.size = args[1]
-                self.x = args[2]
-                self.y = args[3]
-            except IndexError:
-                pass
-        else:
-            print()
-
-    def to_dictionary(self):
-        """Returns a dict representation
+        """
+        This mehod assigns instance attributes of the square class.
         """
 
-        return {'id': self.id, 'x': self.x, 'size': self.width, 'y': self.y}
+        if args:
+            length = len(args)
+            self.id = args[0]
+            if length > 1:
+                self.width = args[1]
+                self.height = args[1]
+                if length > 2:
+                    self.x = args[2]
+                    if length > 3:
+                        self.y = args[3]
+        elif kwargs:
+            for key, value in kwargs.items():
+                if key == 'id':
+                    self.id = value
+                elif key == 'y':
+                    self.y = value
+                elif key == 'x':
+                    self.x = value
+                elif key == 'size':
+                    self.width = value
+                    self.height = value
+                else:
+                    pass
+
+    def to_dictionary(self):
+        """
+        This method returns the dictionary representation
+        of a Square.
+        """
+        dict_reper = {
+                'id': self.id,
+                'size': self.size,
+                'x': self.x,
+                'y': self.y
+                }
+
+        return dict_reper
