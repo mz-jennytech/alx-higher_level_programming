@@ -1,7 +1,22 @@
 #!/usr/bin/node
-// JS Script
-let fs = require('fs');
-let text1 = fs.readFileSync(process.argv[2], 'utf-8');
-let text2 = fs.readFileSync(process.argv[3], 'utf-8');
-fs.appendFile(process.argv[4], text1.concat(text2).trim());
-fs.appendFile(process.argv[4], '\n');
+const fs = require('fs');
+
+const fileA = process.argv[2];
+const fileB = process.argv[3];
+const fileC = process.argv[4];
+
+if (
+  fs.existsSync(fileA) &&
+fs.statSync(fileA).isFile &&
+fs.existsSync(fileB) &&
+fs.statSync(fileB).isFile &&
+fileC !== undefined
+) {
+  const fileAContent = fs.readFileSync(fileA);
+  const fileBContent = fs.readFileSync(fileB);
+  const stream = fs.createWriteStream(fileC);
+
+  stream.write(fileAContent);
+  stream.write(fileBContent);
+  stream.end();
+}
